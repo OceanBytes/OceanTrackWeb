@@ -13,15 +13,13 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Clone and build the custom web UI
-RUN git clone https://github.com/Tech-Prescient/traccar-web-oceantrack.git /tmp/web-ui && \
+RUN git clone --branch ob_master https://github.com/OceanBytes/OceanTrackWeb.git /tmp/web-ui && \
     cd /tmp/web-ui && \
     npm install && \
     npm run build && \
     rm -rf /opt/traccar/web/* && \
     cp -r /tmp/web-ui/build/* /opt/traccar/web/ && \
     rm -rf /tmp/web-ui
-
-COPY traccar.xml /opt/traccar/conf/traccar.xml
 
 EXPOSE 8082
 
