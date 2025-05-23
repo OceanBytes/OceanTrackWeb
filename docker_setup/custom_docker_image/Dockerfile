@@ -2,6 +2,7 @@ FROM traccar/traccar:6.6-ubuntu
 
 WORKDIR /opt/traccar
 
+ARG ENVIRONMENT=dev
 # Install tools needed to build the frontend
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -16,7 +17,7 @@ RUN apt-get update && \
 RUN git clone --branch ob_master https://github.com/OceanBytes/OceanTrackWeb.git /tmp/web-ui && \
     cd /tmp/web-ui && \
     npm install && \
-    npm run build:prod && \
+    npm run build:$ENVIRONMENT && \
     rm -rf /opt/traccar/web/* && \
     cp -r /tmp/web-ui/build/* /opt/traccar/web/ && \
     rm -rf /tmp/web-ui
