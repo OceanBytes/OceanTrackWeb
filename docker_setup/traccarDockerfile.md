@@ -45,7 +45,7 @@ fishtrack-dev:latest
 ```
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 135407538921.dkr.ecr.us-east-1.amazonaws.com
 
-docker build --platform linux/amd64 -t fishtrack-dev .
+docker build --platform linux/amd64 --build-arg ENVIRONMENT=dev -t fishtrack-dev .
 
 docker tag fishtrack-dev:latest 135407538921.dkr.ecr.us-east-1.amazonaws.com/fishtrack-dev:latest
 
