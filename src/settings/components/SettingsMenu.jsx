@@ -79,14 +79,14 @@ const SettingsMenu = () => {
                 selected={location.pathname.startsWith('/settings/group')}
               />
             )}
-            {!features.disableDrivers && (
+            {/* {!features.disableDrivers && (
               <MenuItem
                 title={t('sharedDrivers')}
                 link="/settings/drivers"
                 icon={<PersonIcon />}
                 selected={location.pathname.startsWith('/settings/driver')}
               />
-            )}
+            )} */}
             {!features.disableCalendars && (
               <MenuItem
                 title={t('sharedCalendars')}
