@@ -13,11 +13,12 @@ To create our custom [docker image](custom_docker_image/Dockerfile), we have use
 - Refer [this structure](custom_docker_image) 
 
 ## Configure traccar.xml file
-- Database and OpenID connect configuration have been added in the [traccar.xml file](custom_docker_image/traccar.xml). 
+- Database and OpenID connect configuration have been added in the [traccar.xml file](docker_setup/traccar.xml). 
 - To test locally make use of the local h2 database.
 - For OpenID connection, we have used AWS Cognito user pool *CCTV Users Development*. We have used the *VMS Development* App client for the connection.
 - The *web.url* key is used to set the callback URL post completion of login.
 - We also have to update the *Allowed callback URLs* in the Cognito Login Pages setup to include the hosted URL for the web app.
+- *We are currently using AWS Secrets to fetch the values mentioned in the XML config as per the environment used*
 
 ## Build docker image 
 To build the custom docker image, open the folder in CLI and use the build command:
