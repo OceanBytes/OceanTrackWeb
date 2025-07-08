@@ -22,7 +22,7 @@ RUN git clone --branch ob_master https://github.com/OceanBytes/OceanTrackWeb.git
     cp -r /tmp/web-ui/build/* /opt/traccar/web/ && \
     rm -rf /tmp/web-ui
 
-EXPOSE 8082
+EXPOSE 8082 5055
 
 # Start the server
 ENTRYPOINT ["java", "-Xms1g", "-Xmx1g", "-Djava.net.preferIPv4Stack=true"]
