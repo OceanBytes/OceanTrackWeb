@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
-import { formatTime, getStatusColor } from '../common/util/formatter';
+import { formatTime, getStatusColor,getLastUpdateColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
@@ -45,6 +45,7 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
       fixTime: formatTime(position.fixTime, 'seconds'),
       category: mapIconKey(device.category),
       color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
+      customColor:getLastUpdateColor(position.deviceTime),
       rotation: position.course,
       direction: showDirection,
     };
@@ -105,7 +106,8 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
         source,
         filter: ['!has', 'point_count'],
         layout: {
-          'icon-image': '{category}-{color}',
+          // 'icon-image': '{category}-{color}',
+          'icon-image': '{category}-{customColor}',
           'icon-size': iconScale,
           'icon-allow-overlap': true,
           'text-field': `{${titleField || 'name'}}`,
@@ -114,6 +116,8 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
           'text-offset': [0, -2 * iconScale],
           'text-font': findFonts(map),
           'text-size': 12,
+          'icon-rotate': ['get', 'rotation'],
+          'icon-rotation-alignment':'map'
         },
         paint: {
           'text-halo-color': 'white',

@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { devicesActions } from '../store';
 import {
-  formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
+  formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,getLastUpdateColor
 } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
@@ -78,6 +78,22 @@ const DeviceRow = ({ data, index, style }) => {
     );
   };
 
+ const secondaryTextStatus = (position={}) => {
+   let textColor = 'neutral';
+   let status = 'Offline';
+  
+   if (Object.keys(position).length !== 0) {
+     textColor = getLastUpdateColor(position.deviceTime);
+     status = dayjs(position.deviceTime).fromNow();
+   }
+    return (
+      <>
+        {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
+        <span className={classes[textColor]}>{status}</span>
+      </>
+    );
+  };
+
   return (
     <div style={style}>
       <ListItemButton
@@ -93,7 +109,8 @@ const DeviceRow = ({ data, index, style }) => {
         <ListItemText
           primary={item[devicePrimary]}
           primaryTypographyProps={{ noWrap: true }}
-          secondary={secondaryText()}
+          // secondary={secondaryText()}
+          secondary={secondaryTextStatus(position)}
           secondaryTypographyProps={{ noWrap: true }}
         />
         {position && (
