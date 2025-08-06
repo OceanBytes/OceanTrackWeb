@@ -127,8 +127,8 @@ export const getStatusColor = (status) => {
 };
 
 export const getLastUpdateColor = (lastUpdateTime) => {
-   let diffMs = new Date() - new Date(lastUpdateTime);
-  const diffHours = Math.abs(diffMs / (1000 * 60 * 60));
+   let diffMillis = new Date() - new Date(lastUpdateTime);
+  const diffHours = Math.abs(diffMillis / (1000 * 60 * 60));
   if (diffHours < 3) 
     return 'success';
   else if(diffHours >= 3 && diffHours < 24)

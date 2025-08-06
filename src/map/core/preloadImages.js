@@ -52,7 +52,7 @@ export const mapIcons = {
   tram: tramSvg,
   truck: truckSvg,
   van: vanSvg,
-  vessel:vesselSvg
+  vessel: vesselSvg
 };
 
 export const mapIconKey = (category) => {
@@ -62,6 +62,8 @@ export const mapIconKey = (category) => {
       return 'car';
     case 'trolleybus':
       return 'bus';
+    case 'ship':
+    case 'boat':
     case null:
       return 'vessel';
     default:
