@@ -48,6 +48,24 @@ export const prepareIcon = (background, icon, color) => {
   return context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
+export const prepareIconWithoutBg = (dimensions, icon, color) => {
+  const canvas = document.createElement('canvas');
+  canvas.width = dimensions.width * devicePixelRatio;
+  canvas.height = dimensions.height * devicePixelRatio;
+  canvas.style.width = `${dimensions.width}px`;
+  canvas.style.height = `${dimensions.height}px`;
+  const context = canvas.getContext('2d');
+
+  if (icon) {
+    const iconRatio = 0.5;
+    const imageWidth = canvas.width * iconRatio;
+    const imageHeight = canvas.height * iconRatio;
+    context.drawImage(canvasTintImage(icon, color), (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+  }
+
+  return context.getImageData(0, 0, canvas.width, canvas.height);
+};
+
 export const reverseCoordinates = (it) => {
   if (!it) {
     return it;

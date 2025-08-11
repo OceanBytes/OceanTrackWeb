@@ -1,6 +1,6 @@
 import { grey, yellow } from '@mui/material/colors';
 import createPalette from '@mui/material/styles/createPalette';
-import { loadImage, prepareIcon } from './mapUtil';
+import { loadImage, prepareIcon, prepareIconWithoutBg } from './mapUtil';
 
 import directionSvg from '../../resources/images/direction.svg';
 import backgroundSvg from '../../resources/images/background.svg';
@@ -83,13 +83,13 @@ export default async () => {
   const background = await loadImage(backgroundSvg);
   mapImages.background = await prepareIcon(background);
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
-  mapImages.fish = await prepareIcon(background,await loadImage(fish),mapPalette.purpleColor.main);
+  mapImages.fish = await prepareIcon(background, await loadImage(fish), mapPalette.purpleColor.main);
   
   await Promise.all(Object.keys(mapIcons).map(async (category) => {
     const results = [];
     ['info', 'success', 'error', 'neutral', 'warning'].forEach((color) => {
       results.push(loadImage(mapIcons[category]).then((icon) => {
-        mapImages[`${category}-${color}`] = prepareIcon(background, icon, mapPalette[color].main);
+        mapImages[`${category}-${color}`] = category === 'vessel' ? prepareIconWithoutBg({ width: background.width, height: background.height }, icon, mapPalette[color].main): prepareIcon(background, icon, mapPalette[color].main);
       }));
     });
     await Promise.all(results);
