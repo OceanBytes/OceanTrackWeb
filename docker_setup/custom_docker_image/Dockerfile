@@ -25,5 +25,5 @@ RUN git clone --branch ob_master https://github.com/OceanBytes/OceanTrackWeb.git
 EXPOSE 8082 5055
 
 # Start the server
-ENTRYPOINT ["java", "-Xms1g", "-Xmx1g", "-Djava.net.preferIPv4Stack=true"]
+ENTRYPOINT ["java", "-Xms2g", "-Xmx6g", "-Djava.net.preferIPv4Stack=true"]
 CMD ["-jar", "tracker-server.jar", "conf/traccar.xml"]

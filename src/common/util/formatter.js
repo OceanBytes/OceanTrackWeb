@@ -126,6 +126,17 @@ export const getStatusColor = (status) => {
   }
 };
 
+export const getLastUpdateColor = (lastUpdateTime) => {
+   let diffMillis = new Date() - new Date(lastUpdateTime);
+  const diffHours = Math.abs(diffMillis / (1000 * 60 * 60));
+  if (diffHours < 3) 
+    return 'success';
+  else if(diffHours >= 3 && diffHours < 24)
+    return 'warning';
+  else
+    return 'error';  
+}
+
 export const getBatteryStatus = (batteryLevel) => {
   if (batteryLevel >= 70) {
     return 'success';

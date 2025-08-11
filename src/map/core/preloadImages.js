@@ -1,6 +1,6 @@
-import { grey } from '@mui/material/colors';
+import { grey, yellow } from '@mui/material/colors';
 import createPalette from '@mui/material/styles/createPalette';
-import { loadImage, prepareIcon } from './mapUtil';
+import { loadImage, prepareIcon, prepareIconWithoutBg } from './mapUtil';
 
 import directionSvg from '../../resources/images/direction.svg';
 import backgroundSvg from '../../resources/images/background.svg';
@@ -27,6 +27,7 @@ import tramSvg from '../../resources/images/icon/tram.svg';
 import truckSvg from '../../resources/images/icon/truck.svg';
 import vanSvg from '../../resources/images/icon/van.svg';
 import fish from '../../resources/images/icon/fish.png';
+import vesselSvg from '../../resources/images/icon/vessel.svg';
 
 export const mapIcons = {
   animal: animalSvg,
@@ -51,6 +52,7 @@ export const mapIcons = {
   tram: tramSvg,
   truck: truckSvg,
   van: vanSvg,
+  vessel: vesselSvg
 };
 
 export const mapIconKey = (category) => {
@@ -60,6 +62,10 @@ export const mapIconKey = (category) => {
       return 'car';
     case 'trolleybus':
       return 'bus';
+    case 'ship':
+    case 'boat':
+    case null:
+      return 'vessel';
     default:
       return mapIcons.hasOwnProperty(category) ? category : 'default';
   }
@@ -69,20 +75,21 @@ export const mapImages = {};
 
 const mapPalette = createPalette({
   neutral: { main: grey[500] },
-  purpleColor: { main: 'purple'}
+  purpleColor: { main: 'purple' },
+  warning:{ main: yellow[800] },
 });
 
 export default async () => {
   const background = await loadImage(backgroundSvg);
   mapImages.background = await prepareIcon(background);
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
-  mapImages.fish = await prepareIcon(background,await loadImage(fish),mapPalette.purpleColor.main);
+  mapImages.fish = await prepareIcon(background, await loadImage(fish), mapPalette.purpleColor.main);
   
   await Promise.all(Object.keys(mapIcons).map(async (category) => {
     const results = [];
-    ['info', 'success', 'error', 'neutral'].forEach((color) => {
+    ['info', 'success', 'error', 'neutral', 'warning'].forEach((color) => {
       results.push(loadImage(mapIcons[category]).then((icon) => {
-        mapImages[`${category}-${color}`] = prepareIcon(background, icon, mapPalette[color].main);
+        mapImages[`${category}-${color}`] = category === 'vessel' ? prepareIconWithoutBg({ width: background.width, height: background.height }, icon, mapPalette[color].main): prepareIcon(background, icon, mapPalette[color].main);
       }));
     });
     await Promise.all(results);
